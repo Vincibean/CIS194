@@ -70,23 +70,19 @@ handleEvent _ c      = c
 
 drawState :: Coord -> Picture
 drawState c = atCoord c pictureOfMaze
-           
-stick = path [(0,0),(0,1)]
-           
-body = stick
 
-legs = translated 0 0 (rotated (9 * pi/10) stick & rotated (- 9 * pi/10) stick)
-
-arms = translated 0 1 (rotated (- 6 * pi/10) stick & rotated (- 4 * pi/10) stick)
-
-hair = sector (pi * 7 / 6) (pi / 6) 0.5
-
-face = circle 0.5
-
-playerHead = translated 0 (pi / 2) (face & hair)
 
 player :: Picture
 player = playerHead & arms & legs & body
+  where
+    stick = path [(0,0),(0,1)]
+    body = stick
+    arms = translated 0 1 (rotated (- 6 * pi/10) stick & rotated (- 4 * pi/10) stick)
+    legs = translated 0 0 (rotated (9 * pi/10) stick & rotated (- 9 * pi/10) stick)
+    face = circle 0.5
+    hair = sector (pi * 7 / 6) (pi / 6) 0.5
+    playerHead = translated 0 (pi / 2) (face & hair)
+    
 
 main :: IO ()
 main = drawingOf $ player -- (tree 2) -- interactionOf initialCoord handleTime handleEvent drawState
